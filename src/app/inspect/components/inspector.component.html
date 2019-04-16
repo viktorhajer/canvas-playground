@@ -1,0 +1,52 @@
+<div class="stream-container">
+  <div *ngFor="let stream of getStreams()" class="stream" [class.selected]="isSelected(stream)">
+    <div style="position: relative"><mat-icon style="position: absolute; right: 0px; z-index: 10; cursor: pointer;" (click)="removeStream(stream)">indeterminate_check_box</mat-icon></div>
+    <video autoplay controls muted [srcObject]="stream" (click)="selectStream(stream)"></video>
+  </div>
+</div>
+
+<div *ngIf="!streamService.streams.length" class="module-message">
+  No stream has been added!
+</div>
+
+<mat-tab-group *ngIf="!!streamService.streams.length && hasSelected()" (selectedTabChange)="selectTab($event)">
+  <mat-tab label="Information">
+    <div class="stream-information">
+      <h3>Basic information</h3>
+      <ul>
+        <li class="" *ngFor="let info of getStreamInfo(track)">{{ info }}</li>
+      </ul>
+      <h3 *ngIf="!!selectedStream.getVideoTracks().length">Video track(s)</h3>
+      <div *ngFor="let track of selectedStream.getVideoTracks()">
+        <ul>
+          <li class="" *ngFor="let info of getMediaTrackInfo(track)">{{ info }}</li>
+        </ul>
+      </div>
+      <h3 *ngIf="!!selectedStream.getAudioTracks().length">Audio track(s)</h3>
+      <div *ngFor="let track of selectedStream.getAudioTracks()">
+        <ul>
+          <li class="" *ngFor="let info of getMediaTrackInfo(track)">{{ info }}</li>
+        </ul>
+      </div>
+    </div>
+  </mat-tab>
+  <mat-tab label="Settings">
+    <app-settings-form [settingsString]="getSettingsString()" [capabilitiesString]="getCapabilitiesString()"
+                       (applyChanges)="applyMediaTrackConstraints($event)"></app-settings-form>
+  </mat-tab>
+  <mat-tab label="Video" *ngIf="!!selectedStream.getVideoTracks().length">
+    <div class="original-screen-video" [class.full-size]="fullSize">
+      <video autoplay controls muted [srcObject]="streamToDisplay" id="original-video"
+             (click)="setVideoDimension()"></video>
+      <div class="info-box">
+        <p><span>Stream Size: </span>{{getInfoBoxContent().size}}</p>
+        <p *ngIf="!!videoDimension"><span>Video Size: </span>{{videoDimension}}</p>
+        <p><span>Frame rate: </span>{{getInfoBoxContent().frameRate}}</p>
+        <p><span>Aspect Ratio: </span>{{getInfoBoxContent().aspectRatio}}</p>
+        <p>
+          <mat-icon (click)="toggleFullSize()">settings_overscan</mat-icon>
+        </p>
+      </div>
+    </div>
+  </mat-tab>
+</mat-tab-group>

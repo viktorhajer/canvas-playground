@@ -1,0 +1,37 @@
+<p class="module-message" *ngIf="!streamToDisplay">Select media stream</p>
+<div class="sample-container">
+  <video id="sample" width="640" height="480"
+         *ngIf="!!streamToDisplay" autoplay controls muted [srcObject]="streamToDisplay">
+  </video>
+  <div class="canvas-container">
+    <canvas id="canvas" width="640" height="480">
+    </canvas>
+    <img src="assets/green-effect-background.jpg" [hidden]="!interval">
+  </div>
+
+</div>
+
+<div class="settings" *ngIf="!!streamToDisplay">
+  <div class="settings-container">
+    <div class="form-field">
+      <div class="name">
+        <label>Color: </label>
+      </div>
+      <div class="range-input">
+        <input type="text" [(ngModel)]="color"/>
+      </div>
+    </div>
+    <div class="form-field">
+      <div class="name">
+        <label>Limit: </label>
+      </div>
+      <div class="range-input">
+        <input type="range" [min]="0" [max]="1000" [(ngModel)]="limit" /> <span>(value: {{limit}})</span>
+      </div>
+    </div>
+    <div class="form-field">
+      <button mat-raised-button color="primary" (click)="start()" *ngIf="!interval">Start</button>
+      <button mat-raised-button color="accent" (click)="stop()" *ngIf="interval">Freeze</button>
+    </div>
+  </div>
+</div>

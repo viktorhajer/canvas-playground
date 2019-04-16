@@ -1,0 +1,45 @@
+.settings-container {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+
+  .form-field {
+    display: flex;
+    flex-flow: column nowrap;
+    line-height: 20px;
+    margin: 10px 0;
+
+    label, span {
+      font-size: 11px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+
+      .mat-icon {
+        font-size: 17px;
+        padding: 0;
+        margin: 0 5px 0 0;
+        width: 17px;
+        height: 17px;
+        cursor: pointer;
+      }
+    }
+
+    span {
+      font-weight: normal;
+      color: #999;
+    }
+
+    input, select {
+      width: 400px;
+      padding: 5px;
+      margin-left: 10px;
+      border: 1px solid #ddd;
+      color: #888;
+    }
+  }
+}
+
+.settings-container > * {
+  width: 100%;
+}

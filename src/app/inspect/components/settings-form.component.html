@@ -1,0 +1,69 @@
+<div class="settings-container">
+
+  <div class="form-field" *ngIf="hasFacingMode()">
+    <label>
+      <mat-icon *ngIf="!facingModeEnabled" (click)="toggleFlag('facingModeEnabled')">check_box_outline_blank</mat-icon>
+      <mat-icon *ngIf="facingModeEnabled" (click)="toggleFlag('facingModeEnabled')">check_box</mat-icon>
+      Facing Mode
+    </label>
+    <select placeholder="Select" [(ngModel)]="facingMode">
+      <option *ngFor="let value of getFacingModes()" [value]="value">{{ value }}</option>
+    </select>
+  </div>
+
+  <div class="form-field" *ngIf="hasResizeMode()">
+    <label>
+      <mat-icon *ngIf="!resizeModeEnabled" (click)="toggleFlag('resizeModeEnabled')">check_box_outline_blank</mat-icon>
+      <mat-icon *ngIf="resizeModeEnabled" (click)="toggleFlag('resizeModeEnabled')">check_box</mat-icon>
+      Resize Mode
+    </label>
+    <select placeholder="Select" [(ngModel)]="resizeMode">
+      <option *ngFor="let value of getResizeModes()" [value]="value">{{ value }}</option>
+    </select>
+  </div>
+
+  <div class="form-field" *ngIf="hasFrameRate()">
+    <label>
+      <mat-icon *ngIf="!frameRateEnabled" (click)="toggleFlag('frameRateEnabled')">check_box_outline_blank</mat-icon>
+      <mat-icon *ngIf="frameRateEnabled" (click)="toggleFlag('frameRateEnabled')">check_box</mat-icon>
+      Frame Rate
+    </label>
+    <span>(min: {{getFrameRateLimit().min}} - max: {{getFrameRateLimit().max}} - value: {{frameRate}})</span>
+    <input type="range" [max]="getFrameRateLimit().max" [min]="getFrameRateLimit().min" [(ngModel)]="frameRate" />
+  </div>
+
+  <div class="form-field" *ngIf="hasAspectRatio()">
+    <label>
+      <mat-icon *ngIf="!aspectRatioEnabled" (click)="toggleFlag('aspectRatioEnabled')">check_box_outline_blank</mat-icon>
+      <mat-icon *ngIf="aspectRatioEnabled" (click)="toggleFlag('aspectRatioEnabled')">check_box</mat-icon>
+      Aspect Ratio
+    </label>
+    <span>(min: {{getAspectRatioLimit().min}} - max: {{getAspectRatioLimit().max}} - value: {{aspectRatio}})</span>
+    <input type="range" [max]="getAspectRatioLimit().max" [min]="getAspectRatioLimit().min" [(ngModel)]="aspectRatio" />
+  </div>
+
+  <div class="form-field" *ngIf="hasWidth()">
+    <label>
+      <mat-icon *ngIf="!widthEnabled" (click)="toggleFlag('widthEnabled')">check_box_outline_blank</mat-icon>
+      <mat-icon *ngIf="widthEnabled" (click)="toggleFlag('widthEnabled')">check_box</mat-icon>
+      Width
+    </label>
+    <span>(min: {{getWidthLimit().min}} - max: {{getWidthLimit().max}} - value: {{width}})</span>
+    <input type="range" [max]="getWidthLimit().max" [min]="getWidthLimit().min" [(ngModel)]="width" />
+  </div>
+
+  <div class="form-field" *ngIf="hasHeight()">
+    <label>
+      <mat-icon *ngIf="!heightEnabled" (click)="toggleFlag('heightEnabled')">check_box_outline_blank</mat-icon>
+      <mat-icon *ngIf="heightEnabled" (click)="toggleFlag('heightEnabled')">check_box</mat-icon>
+      Height
+    </label>
+    <span>(min: {{getHeightLimit().min}} - max: {{getHeightLimit().max}} - value: {{height}})</span>
+    <input type="range" [max]="getHeightLimit().max" [min]="getHeightLimit().min" [(ngModel)]="height" />
+  </div>
+
+  <div class="form-field">
+    <button mat-raised-button color="primary" (click)="applySettings()">Apply Settings</button>
+  </div>
+
+</div>

@@ -1,0 +1,60 @@
+.sample-container {
+  display: flex;
+}
+
+.settings {
+  display: flex;
+}
+
+.settings-container {
+  display: flex;
+  flex-flow: column nowrap;
+  padding: 15px;
+
+  .settings-name {
+    padding: 10px 0;
+    font-weight: bold;
+  }
+
+  .form-field {
+    display: flex;
+    align-items: center;
+
+    .name {
+      display: flex;
+      align-items: center;
+      width: 130px;
+      font-size: 12px;
+
+      .mat-icon {
+        cursor: pointer;
+      }
+
+      label {
+        font-size: 10px;
+      }
+    }
+    .range-input {
+      display: flex;
+      align-items: center;
+      font-size: 10px;
+
+      input {
+        width: 250px;
+        margin-right: 5px;
+      }
+    }
+
+    button {
+      margin-top: 10px;
+      font-size: 10px;
+      line-height: 25px;
+    }
+  }
+}
+
+.canvas-container {
+  canvas {
+    position: absolute;
+  }
+}

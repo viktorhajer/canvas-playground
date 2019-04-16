@@ -1,0 +1,58 @@
+.sample-container {
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+.settings-container {
+  display: flex;
+  flex-flow: column nowrap;
+  padding: 15px;
+
+  .form-field {
+    display: flex;
+    align-items: center;
+    margin: 8px 0;
+
+    .name {
+      display: flex;
+      align-items: center;
+      font-size: 12px;
+
+      label {
+        font-size: 10px;
+      }
+    }
+    .range-input {
+      display: flex;
+      align-items: center;
+      font-size: 10px;
+
+      input {
+        width: 250px;
+        margin-right: 5px;
+      }
+
+      select {
+        font-size: 12px;
+        width: 120px;
+        height: 30px;
+      }
+
+      span {
+        padding: 0 10px;
+      }
+    }
+
+    button {
+      margin-top: 10px;
+      font-size: 10px;
+      line-height: 25px;
+      margin-right: 10px;
+    }
+  }
+}
+
+video {
+  width: 30%;
+  height: 30%;
+}

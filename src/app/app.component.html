@@ -1,0 +1,41 @@
+<header>
+  <button mat-icon-button [matMenuTriggerFor]="menu" class="main-menu">
+    <mat-icon>more_vert</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item routerLinkActive="active" [routerLink]="['/inspect']" *ngIf="getInspectorBadgeNumber() > 0">
+      <mat-icon>search</mat-icon>
+      <span matBadge="{{getInspectorBadgeNumber()}}" matBadgeOverlap="false" *ngIf="getInspectorBadgeNumber()">MediaStream Information</span>
+      <span *ngIf="!getInspectorBadgeNumber()">MediaStream Information</span>
+    </button>
+    <button mat-menu-item routerLinkActive="active" [routerLink]="['/filters']" *ngIf="getInspectorBadgeNumber() > 0">
+      <mat-icon>movie_filter</mat-icon>
+      <span>Filters</span>
+    </button>
+    <button mat-menu-item routerLinkActive="active" [routerLink]="['/mixer']" *ngIf="getInspectorBadgeNumber() > 1">
+      <mat-icon>device_hub</mat-icon>
+      <span>Mixer</span>
+    </button>
+    <button mat-menu-item routerLinkActive="active" [routerLink]="['/chroma-keying']" *ngIf="getInspectorBadgeNumber() > 0">
+      <mat-icon>gradient</mat-icon>
+      <span>Chroma Keying (green screen effect)</span>
+    </button>
+    <button mat-menu-item routerLinkActive="active" [routerLink]="['/devices']">
+      <mat-icon>camera_alt</mat-icon>
+      <span>Local Devices</span>
+    </button>
+  </mat-menu>
+
+  <div class="header-title">
+    Canvas and Media Playground
+  </div>
+
+</header>
+<main>
+  <div class="loading" *ngIf="loadingService.loading">
+    <mat-progress-spinner [color]="'accent'"
+                          [mode]="'indeterminate'">
+    </mat-progress-spinner>
+  </div>
+  <router-outlet></router-outlet>
+</main>
