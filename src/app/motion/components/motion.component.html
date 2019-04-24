@@ -1,0 +1,54 @@
+<div class="page-title">Motion Detection</div>
+
+<div class="page-content">
+
+  <p class="module-message panel" *ngIf="!streamToDisplay">Select media stream</p>
+
+  <div class="panel">
+    <div class="filter-buttons">
+        <a class="filter-button extra" (click)="start()" *ngIf="!interval"><label>Start</label></a>
+        <a class="filter-button enabled extra" (click)="stop()" *ngIf="interval"><label>Stop</label></a>
+        <a class="filter-button" [class.enabled]="isMode1(0)" (click)="setMode1(0)"><label>M1C</label></a>
+        <a class="filter-button" [class.enabled]="isMode1(1)" (click)="setMode1(1)"><label>M1BW</label></a>
+        <a class="filter-button" [class.enabled]="isMode1(2)" (click)="setMode1(2)"><label>M1B</label></a>
+        <a class="filter-button" [class.enabled]="isMode1(3)" (click)="setMode1(3)"><label>M1W</label></a>
+        <a class="filter-button" [class.enabled]="isMode1(4)" (click)="setMode1(4)"><label>M1T</label></a>
+
+        <a class="filter-button" [class.enabled]="isMode2(0)" (click)="setMode2(0)"><label>M2Blue</label></a>
+        <a class="filter-button" [class.enabled]="isMode2(1)" (click)="setMode2(1)"><label>M2BW</label></a>
+        <a class="filter-button" [class.enabled]="isMode2(2)" (click)="setMode2(2)"><label>M2Diff</label></a>
+        <a class="filter-button" [class.enabled]="isMode2(3)" (click)="setMode2(3)"><label>M2IDiff</label></a>
+        <a class="filter-button" [class.enabled]="isMode2(4)" (click)="setMode2(4)"><label>M2C</label></a>
+        <a class="filter-button" [class.enabled]="isMode2(5)" (click)="setMode2(5)"><label>M2B</label></a>
+
+    </div>
+  </div>
+
+  <div class="sample-container panel">
+    <div class="canvas-container">
+      <canvas id="canvas" width="640" height="480"></canvas>
+      <img src="assets/green-effect-background.jpg">
+    </div>
+  </div>
+
+  <div class="settings panel" *ngIf="!!streamToDisplay">
+    <div class="settings-container">
+      <div class="form-field">
+        <div class="name">
+          <label>Movement Power: </label>
+        </div>
+        <div class="value-input">
+          <input type="text" [(ngModel)]="power" disabled/>
+        </div>
+      </div>
+      <div class="form-field">
+        <div class="name">
+          <label>Sensitivity: </label>
+        </div>
+        <div class="range-input">
+          <input type="range" [min]="0" [max]="100" [(ngModel)]="sensitivity" /> <span>(value: {{sensitivity}})</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

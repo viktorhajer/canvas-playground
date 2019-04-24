@@ -61,7 +61,6 @@ export class InspectorComponent {
   getMediaTrackInfo(track: MediaStreamTrack): string[] {
     const output = [];
     output.push('ID: ' + track.id);
-    output.push('Isolated: ' + track.isolated);
     output.push('Kind: ' + track.kind);
     output.push('Label: ' + track.label);
     output.push('Muted: ' + track.muted);

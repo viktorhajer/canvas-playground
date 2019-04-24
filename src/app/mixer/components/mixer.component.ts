@@ -43,7 +43,7 @@ export class MixerComponent implements OnDestroy {
     this.initVideos();
     this.canvas = <HTMLCanvasElement>document.getElementById('canvas');
     this.ctx = this.canvas.getContext('2d');
-    this.interval = setInterval(() => this.update(), 100);
+    this.interval = setInterval(() => this.update(), 30);
   }
 
   stop() {

@@ -3,7 +3,7 @@ import {CanvasFilter, FilterParamType} from './canvas.filter';
 export class GrayscaleDataCanvasFilter extends CanvasFilter {
 
   constructor() {
-    super('Grayscale', false, FilterParamType.SWITCH);
+    super('Grayscale 2', false, FilterParamType.SWITCH);
   }
 
   filter(context: CanvasRenderingContext2D, width: number, height: number) {

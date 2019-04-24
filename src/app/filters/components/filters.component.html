@@ -1,83 +1,37 @@
-<p class="module-message" *ngIf="!streamToDisplay">Select media stream</p>
-<div class="sample-container">
-  <video id="sample" width="640" height="480"
-         *ngIf="!!streamToDisplay" autoplay controls muted [srcObject]="streamToDisplay">
-  </video>
-  <canvas id="canvas" width="640" height="480">
-  </canvas>
-</div>
+<div class="page-title">Filters</div>
 
-<div class="settings" *ngIf="!!streamToDisplay">
-  <div class="settings-container">
-    <div class="settings-name">
-      Basic Filters
-    </div>
-    <div class="form-field" *ngFor="let f of filters">
-      <div class="name">
-        <mat-icon *ngIf="!f.enabled" (click)="f.toggleEnabled()">check_box_outline_blank</mat-icon>
-        <mat-icon *ngIf="f.enabled" (click)="f.toggleEnabled()">check_box</mat-icon>
-        <label>{{ f.label }}</label>
-      </div>
-      <div class="range-input">
-        <input type="range" *ngIf="f.isRangeType()" [min]="f.rangeStart" [max]="f.rangeEnd" [(ngModel)]="f.param" />
-        <span *ngIf="f.isRangeType()">(value: {{f.param}})</span>
-      </div>
-    </div>
-    <div class="form-field">
-      <button mat-raised-button color="primary" (click)="start()" *ngIf="!interval">Start</button>
-      <button mat-raised-button color="accent" (click)="stop()" *ngIf="interval">Freeze</button>
+<div class="page-content">
+
+  <p class="module-message" *ngIf="!streamToDisplay">Select media stream</p>
+
+  <div class="panel">
+    <div class="filter-buttons">
+        <a class="filter-button extra" (click)="start()" *ngIf="!interval"><label>Start</label></a>
+        <a class="filter-button enabled extra" (click)="stop()" *ngIf="interval"><label>Stop</label></a>
+        <a class="filter-button" [class.enabled]="f.enabled" [class.selected]="isSelectedFilter(f)"
+          (click)="selectFilter(f)" *ngFor="let f of filters">
+            <label>{{ f.label }}</label>
+        </a>
     </div>
   </div>
-  <div class="settings-container">
-    <div class="settings-name">
-      Convolution Filter
-    </div>
-    <div class="form-field">
-      <div class="name">
-        <mat-icon *ngIf="!convolveFilter.enabled" (click)="convolveFilter.toggleEnabled()">check_box_outline_blank</mat-icon>
-        <mat-icon *ngIf="convolveFilter.enabled" (click)="convolveFilter.toggleEnabled()">check_box</mat-icon>
-        <label>{{ convolveFilter.label }}</label>
+
+  <div class="sample-container panel">
+    <canvas id="canvas" width="640" height="480"></canvas>
+  </div>
+
+  <div class="settings panel" *ngIf="!!selectedFilter">
+    <div class="settings-container">
+      <div class="form-field">
+        <div class="name">
+          <label>{{ selectedFilter.label }}</label>
+        </div>
+        <div class="range-input">
+          <input type="range" *ngIf="selectedFilter.isRangeType()"
+            [min]="selectedFilter.rangeStart" [max]="selectedFilter.rangeEnd" [(ngModel)]="selectedFilter.param" />
+          <span *ngIf="selectedFilter.isRangeType()">(value: {{selectedFilter.param}})</span>
+        </div>
       </div>
-      <div class="range-input">
-        <input type="range" *ngIf="convolveFilter.isRangeType()" [min]="convolveFilter.rangeStart" [max]="convolveFilter.rangeEnd" [(ngModel)]="convolveFilter.param" />
-        <span *ngIf="convolveFilter.isRangeType()">(value: {{convolveFilter.param}})</span>
-      </div>
-    </div>
-    <div class="form-field">
-      <div class="name"><label>P11</label></div>
-      <div class="range-input"><input type="range" [min]="-10" [max]="10" [step]="0.1" [(ngModel)]="convolveFilter.p11" /> <span>(value: {{convolveFilter.p11}})</span></div>
-    </div>
-    <div class="form-field">
-      <div class="name"><label>P12</label></div>
-      <div class="range-input"><input type="range" [min]="-10" [max]="10" [step]="0.1" [(ngModel)]="convolveFilter.p12" /> <span>(value: {{convolveFilter.p12}})</span></div>
-    </div>
-    <div class="form-field">
-      <div class="name"><label>P13</label></div>
-      <div class="range-input"><input type="range" [min]="-10" [max]="10" [step]="0.1" [(ngModel)]="convolveFilter.p13" /> <span>(value: {{convolveFilter.p13}})</span></div>
-    </div>
-    <div class="form-field">
-      <div class="name"><label>P21</label></div>
-      <div class="range-input"><input type="range" [min]="-10" [max]="10" [step]="0.1" [(ngModel)]="convolveFilter.p21" /> <span>(value: {{convolveFilter.p21}})</span></div>
-    </div>
-    <div class="form-field">
-      <div class="name"><label>P22</label></div>
-      <div class="range-input"><input type="range" [min]="-10" [max]="10" [step]="0.1" [(ngModel)]="convolveFilter.p22" /> <span>(value: {{convolveFilter.p22}})</span></div>
-    </div>
-    <div class="form-field">
-      <div class="name"><label>P23</label></div>
-      <div class="range-input"><input type="range" [min]="-10" [max]="10" [step]="0.1" [(ngModel)]="convolveFilter.p23" /> <span>(value: {{convolveFilter.p23}})</span></div>
-    </div>
-    <div class="form-field">
-      <div class="name"><label>P31</label></div>
-      <div class="range-input"><input type="range" [min]="-10" [max]="10" [step]="0.1" [(ngModel)]="convolveFilter.p31" /> <span>(value: {{convolveFilter.p31}})</span></div>
-    </div>
-    <div class="form-field">
-      <div class="name"><label>P32</label></div>
-      <div class="range-input"><input type="range" [min]="-10" [max]="10" [step]="0.1" [(ngModel)]="convolveFilter.p32" /> <span>(value: {{convolveFilter.p32}})</span></div>
-    </div>
-    <div class="form-field">
-      <div class="name"><label>P33</label></div>
-      <div class="range-input"><input type="range" [min]="-10" [max]="10" [step]="0.1" [(ngModel)]="convolveFilter.p33" /> <span>(value: {{convolveFilter.p33}})</span></div>
     </div>
   </div>
+
 </div>

@@ -1,9 +1,11 @@
+.panel  {
+  padding: 0;
+}
+
 .stream-container {
   display: flex;
-  width: calc(100vw - 46px);
   overflow: hidden;
   overflow-x: auto;
-  padding: 15px;
 
   .stream {
     margin: 5px;
@@ -19,8 +21,8 @@
     }
 
     video {
-      width: 150px;
-      height: 110px;
+      width: 120px;
+      height: 90px;
       overflow: hidden;
       cursor: pointer;
     }
@@ -35,7 +37,6 @@
 .stream-information {
   font-size: 12px;
   padding: 10px;
-  margin: 10px 0;
   padding: 10px 15px;
   overflow-wrap: break-word;
 
@@ -46,7 +47,7 @@
 }
 
 .mat-tab-group {
-  min-height: calc(100vh - 300px);
+  height: calc(100vh - 320px);
 }
 
 .original-screen-video {
@@ -54,15 +55,15 @@
   padding: 10px;
   background: #f5f5f5;
   overflow: auto;
-  height: calc(100vh - 350px);
+  height: calc(100vh - 390px);
 
   .info-box {
     position: absolute;
     top: 10px;
-    right: 10px;
+    right: 20px;
     width: 160px;
     font-size: 12px;
-    border: 1px solid;
+    border: 2px solid #dcdcdc;
     padding: 2px 6px;
     background: rgba(255,255,255,0.5);
     line-height: 22px;

@@ -3,7 +3,7 @@ import {CanvasFilter, FilterParamType} from './canvas.filter';
 export class HueRotateCanvasFilter extends CanvasFilter {
 
   constructor() {
-    super('Hue rotation (canvas)', false, FilterParamType.RANGE, 0, 0, 360);
+    super('Hue rotation', false, FilterParamType.RANGE, 0, 0, 360);
   }
 
   filter(context: CanvasRenderingContext2D) {

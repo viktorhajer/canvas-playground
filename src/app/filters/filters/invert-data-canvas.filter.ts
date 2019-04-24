@@ -3,7 +3,7 @@ import {CanvasFilter, FilterParamType} from './canvas.filter';
 export class InvertDataCanvasFilter extends CanvasFilter {
 
   constructor() {
-    super('Invert', false, FilterParamType.SWITCH);
+    super('Invert 2', false, FilterParamType.SWITCH);
   }
 
   filter(context: CanvasRenderingContext2D, width: number, height: number) {

@@ -1,0 +1,88 @@
+header {
+  height: 50px;
+  display: flex;
+  align-items: center;
+  border-bottom: 2px solid #e1e1e1;
+  padding-left: 40px;
+  font-weight: bold;
+  font-size: 18px;
+  background: white;
+  color: #333;
+
+  span {
+   color: #20a8da;
+  }
+
+  mat-icon {
+    margin-right: 10px;
+  }
+}
+
+main {
+
+  display: flex;
+
+  #slidebar {
+    width: 200px;
+    background: #283339;
+    height: calc(100vh - 52px);
+
+    .mat-menu-item {
+      background: 0 0;
+      color: #ffffff;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 50px;
+      border: none;
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      cursor: pointer;
+
+      .mat-menu-title {
+        width: 100%;
+        text-align: left;
+        opacity: 0.85;
+      }
+
+      .mat-icon {
+        color: #ffffff;
+        font-size: 19px;
+        height: auto;
+        width: auto;
+        margin: 0 17px 0 10px;
+        opacity: 0.85;
+
+        &.arrow-left-icon {
+          display: none;
+          color: #e4e5e7;
+          margin: 0;
+          padding: 0;
+          font-size: 40px;
+          margin-right: -17px;
+          opacity: 1;
+        }
+      }
+
+      &.active {
+        .mat-icon {
+          &.arrow-left-icon {
+            display: block;
+          }
+        }
+      }
+
+      .mat-badge-medium.mat-badge-after .mat-badge-content {
+        text-align: center;
+        margin: 0;
+        border-radius: 6px;
+        height: 20px;
+        right: 22px;
+        top: -3px;
+        background: #20b0e4;
+      }
+    }
+  }
+}

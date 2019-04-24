@@ -1,40 +1,43 @@
-<p class="module-message" *ngIf="!streamFirst || !streamSecond">Select at least two media streams</p>
-<div class="sample-container">
-  <video id="sampleFirst" width="640" height="480"
-         *ngIf="!!streamFirst && showVideoElement" autoplay controls muted [srcObject]="streamFirst">
-  </video>
-  <video id="sampleSecond" width="640" height="480"
-         *ngIf="!!streamSecond && showVideoElement" autoplay controls muted [srcObject]="streamSecond">
-  </video>
-  <canvas id="canvas"></canvas>
-</div>
+<div class="page-title">Video Mixer</div>
+<div class="page-content">
+  <p class="module-message" *ngIf="!streamFirst || !streamSecond">Select at least two media streams</p>
+  <div class="sample-container">
+    <video id="sampleFirst" width="640" height="480"
+          *ngIf="!!streamFirst && showVideoElement" autoplay controls muted [srcObject]="streamFirst">
+    </video>
+    <video id="sampleSecond" width="640" height="480"
+          *ngIf="!!streamSecond && showVideoElement" autoplay controls muted [srcObject]="streamSecond">
+    </video>
+    <canvas id="canvas"></canvas>
+  </div>
 
-<div class="settings" *ngIf="!!streamFirst && !!streamSecond">
-  <div class="settings-container">
-    <div class="form-field">
-      <div class="name">
-        <label>Opacity: </label>
+  <div class="settings" *ngIf="!!streamFirst && !!streamSecond">
+    <div class="settings-container">
+      <div class="form-field">
+        <div class="name">
+          <label>Opacity: </label>
+        </div>
+        <div class="range-input">
+          <input type="range"  [min]="0" [max]="100" [(ngModel)]="opacity" />
+          <span>(value: {{opacity}} %)</span>
+        </div>
       </div>
-      <div class="range-input">
-        <input type="range"  [min]="0" [max]="100" [(ngModel)]="opacity" />
-        <span>(value: {{opacity}} %)</span>
+      <div class="form-field">
+        <div class="name">
+          <label>GlobalCompositeOperation: </label>
+        </div>
+        <div class="range-input">
+          <select [(ngModel)]="operation">
+            <option *ngFor="let o of opertaions" [value]="o">{{ o }}</option>
+          </select>
+          <span>(value: {{operation}})</span>
+        </div>
       </div>
-    </div>
-    <div class="form-field">
-      <div class="name">
-        <label>GlobalCompositeOperation: </label>
+      <div class="form-field">
+        <button mat-raised-button color="primary" (click)="start()" *ngIf="!interval">Start</button>
+        <button mat-raised-button color="accent" (click)="stop()" *ngIf="interval">Freeze</button>
+        <button mat-raised-button color="primary" (click)="toggleVideo()">ToggleVideo</button>
       </div>
-      <div class="range-input">
-        <select [(ngModel)]="operation">
-          <option *ngFor="let o of opertaions" [value]="o">{{ o }}</option>
-        </select>
-        <span>(value: {{operation}})</span>
-      </div>
-    </div>
-    <div class="form-field">
-      <button mat-raised-button color="primary" (click)="start()" *ngIf="!interval">Start</button>
-      <button mat-raised-button color="accent" (click)="stop()" *ngIf="interval">Freeze</button>
-      <button mat-raised-button color="primary" (click)="toggleVideo()">ToggleVideo</button>
     </div>
   </div>
 </div>

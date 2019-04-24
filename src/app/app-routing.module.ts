@@ -28,8 +28,18 @@ const routes: Routes = [
     data: {}
   },
   {
-    path: 'chroma-keying',
-    loadChildren: './chroma-keying/chroma-keying.module#ChromaKeyingModule',
+    path: 'color-keying',
+    loadChildren: './color-keying/color-keying.module#ColorKeyingModule',
+    data: {}
+  },
+  {
+    path: 'motion',
+    loadChildren: './motion/motion.module#MotionModule',
+    data: {}
+  },
+  {
+    path: 'stereo',
+    loadChildren: './stereo/stereo.module#StereoModule',
     data: {}
   },
   {path: '**', component: PageNotFoundComponent}

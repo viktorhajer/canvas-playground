@@ -1,0 +1,45 @@
+<div class="page-title">Color Keying</div>
+
+<div class="page-content">
+
+  <p class="module-message panel" *ngIf="!streamToDisplay">Select media stream</p>
+
+  <div class="panel">
+    <div class="filter-buttons">
+        <a class="filter-button extra" (click)="start()" *ngIf="!interval"><label>Start</label></a>
+        <a class="filter-button enabled extra" (click)="stop()" *ngIf="interval"><label>Stop</label></a>
+        <a class="filter-button" [class.enabled]="isMode(0)" (click)="setMode(0)"><label>Hide</label></a>
+        <a class="filter-button" [class.enabled]="isMode(1)" (click)="setMode(1)"><label>Show</label></a>
+        <a class="filter-button" [class.enabled]="isMode(2)" (click)="setMode(2)"><label>Hightlight</label></a>
+    </div>
+  </div>
+
+  <div class="sample-container panel">
+    <div class="canvas-container">
+      <canvas id="canvas" width="640" height="480" (click)="pickColor($event)">
+      </canvas>
+      <img src="assets/green-effect-background.jpg">
+    </div>
+  </div>
+
+  <div class="settings panel" *ngIf="!!streamToDisplay">
+    <div class="settings-container">
+      <div class="form-field">
+        <div class="name">
+          <label>Color: </label>
+        </div>
+        <div class="value-input">
+          <input type="text" [(ngModel)]="color" disabled/>
+        </div>
+      </div>
+      <div class="form-field">
+        <div class="name">
+          <label>Limit: </label>
+        </div>
+        <div class="range-input">
+          <input type="range" [min]="0" [max]="200" [(ngModel)]="limit" /> <span>(value: {{limit}})</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
