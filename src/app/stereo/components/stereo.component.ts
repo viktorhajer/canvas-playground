@@ -22,8 +22,10 @@ export class StereoComponent implements OnInit {
   private leftVideo: HTMLVideoElement;
   private rightVideo: HTMLVideoElement;
 
+  initalized = false;
   playing = false;
   paused = true;
+  devices = [];
 
   constructor(public recordService: RecordService) {
   }
@@ -35,24 +37,31 @@ export class StereoComponent implements OnInit {
     this.canvas.width = CANVAS_WIDTH;
     this.canvas.height = CANVAS_HEIGHT;
     this.ctx = this.canvas.getContext("2d");
-    let devices = [];
-    this.initDevices().then(ds => {
-        devices = ds;
-        return this.setVideo(devices[this.leftIndex]);
-      })
+    this.devices = [];
+    this.initDevices().then(ds => this.devices = ds);
+  }
+
+  init() {
+    this.playing = false;
+    this.paused = true;
+    if (this.recordService.canStop()) {
+      this.recordService.stop();
+    }
+    this.setVideo(this.devices[this.leftIndex])
       .then(video => { 
         this.leftVideo = video;
-        return this.setVideo(devices[this.rightIndex]);
+        return this.setVideo(this.devices[this.rightIndex]);
       })
       .then(video => this.rightVideo = video)
-      .then(() => this.recordService.init((<any>this.canvas).captureStream()));
+      .then(() => this.recordService.init((<any>this.canvas).captureStream()))
+      .then(() => this.initalized = true);
   }
 
   togglePause() {
     if (!this.playing) {
-      this.drawInterval();
       this.paused = false;
       this.playing = true;
+      this.drawInterval();
     } else {
       this.paused = !this.paused;
     }
@@ -68,7 +77,9 @@ export class StereoComponent implements OnInit {
       this.ctx.drawImage(this.leftVideo, x, y, w, h);
       this.ctx.drawImage(this.rightVideo, w + 2 * x, y, w, h);
     }
-    setTimeout(() => this.drawInterval());
+    if (this.playing) {
+      setTimeout(() => this.drawInterval());
+    }
   }
 
   private initDevices(): Promise<any> {

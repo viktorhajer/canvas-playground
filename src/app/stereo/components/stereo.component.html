@@ -3,9 +3,17 @@
 <div class="page-content">
 
   <div class="panel">
-    <div class="filter-buttons">
-        <label>Video: </label>
-        <a class="filter-button extra" (click)="togglePause()">
+    <div class="filter-buttons" *ngIf="!!devices.length">
+        <label>Init: </label>
+        <a class="filter-button extra" (click)="init()"><label>Init</label></a>
+        <select [(ngModel)]="leftIndex">
+          <option *ngFor="let device of devices; let i = index" [value]="i">{{ i }}</option>
+        </select>
+        <select [(ngModel)]="rightIndex">
+            <option *ngFor="let device of devices; let i = index" [value]="i">{{ i }}</option>
+          </select>
+        <label *ngIf="initalized">Video: </label>
+        <a class="filter-button" (click)="togglePause()" *ngIf="initalized">
           <label *ngIf="!playing || paused">Start</label>
           <label *ngIf="playing && !paused">Pause</label>
         </a>
