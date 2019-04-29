@@ -5,8 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "test": "ng test",
-    "lint": "ng lint"
+    "deploy": "ng build --prod --output-path docs --base-href \"https://viktorhajer.github.io/canvas-playground/\""
   },
   "private": true,
   "dependencies": {

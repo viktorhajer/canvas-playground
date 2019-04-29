@@ -16,7 +16,7 @@ export class InspectorComponent {
   videoDimension = '';
   fullSize = true;
 
-  constructor(private streamService: StreamService,
+  constructor(public streamService: StreamService,
               private messageService: MessageService,
               loggerFactory: LoggerFactory) {
     this.logger = loggerFactory.create('InspectorComponent');

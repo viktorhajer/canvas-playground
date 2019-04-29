@@ -11,7 +11,7 @@ export const DEFAULT_BANDWIDTH = 2048;
 })
 export class AppComponent {
 
-  constructor(private loadingService: LoadingService,
+  constructor(public loadingService: LoadingService,
               private streamService: StreamService) {
   }
 
