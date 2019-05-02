@@ -1,0 +1,21 @@
+<div class="page-title">Detectors</div>
+
+<div class="page-content">
+
+  <p class="module-message" *ngIf="!streamToDisplay">Select media stream</p>
+
+  <div class="panel">
+    <div class="filter-buttons">
+        <a class="filter-button extra" (click)="start()" *ngIf="!interval"><label>Start</label></a>
+        <a class="filter-button enabled extra" (click)="stop()" *ngIf="interval"><label>Stop</label></a>
+        <a class="filter-button" [class.enabled]="d.enabled" [class.selected]="isSelectedDetector(d)"
+          (click)="selectDetector(d)" *ngFor="let d of detectors">
+            <label>{{ d.label }}</label>
+        </a>
+    </div>
+  </div>
+
+  <div class="sample-container panel">
+    <canvas id="canvas" width="640" height="480"></canvas>
+  </div>
+</div>

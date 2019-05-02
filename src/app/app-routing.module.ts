@@ -23,6 +23,11 @@ const routes: Routes = [
     data: {}
   },
   {
+    path: 'detection',
+    loadChildren: './detection/detection.module#DetectionModule',
+    data: {}
+  },
+  {
     path: 'mixer',
     loadChildren: './mixer/mixer.module#MixerModule',
     data: {}
