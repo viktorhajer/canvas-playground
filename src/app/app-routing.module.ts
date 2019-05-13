@@ -43,6 +43,11 @@ const routes: Routes = [
     data: {}
   },
   {
+    path: 'tracking',
+    loadChildren: './tracking/tracking.module#TrackingModule',
+    data: {}
+  },
+  {
     path: 'stereo',
     loadChildren: './stereo/stereo.module#StereoModule',
     data: {}

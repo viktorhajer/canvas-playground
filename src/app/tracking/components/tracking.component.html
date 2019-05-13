@@ -1,0 +1,47 @@
+<div class="page-title">Motion Tracking</div>
+
+<div class="page-content">
+
+  <p class="module-message panel" *ngIf="!streamToDisplay">Select media stream</p>
+
+  <div class="panel">
+    <div class="filter-buttons">
+      <a class="filter-button extra" (click)="toggleEnabled()" *ngIf="!enabled"><label>Start</label></a>
+    </div>
+  </div>
+
+  <div class="sample-container panel">
+    <div class="canvas-container">
+      <canvas id="canvas" width="640" height="480" (click)="pickColor($event)"></canvas>
+    </div>
+  </div>
+
+  <div class="settings panel" *ngIf="!!streamToDisplay">
+    <div class="settings-container">
+      <div class="form-field">
+        <div class="name"><label>Tracker speed: </label></div>
+        <div class="range-input">
+          <input type="range" [min]="1" [max]="20" [(ngModel)]="trackerSpeed" />
+          <span>(value: {{trackerSpeed}})</span>
+        </div>
+      </div>
+      <div class="form-field">
+        <div class="name"><label>Tracker size: </label></div>
+        <div class="range-input">
+          <input type="range" [min]="10" [max]="100" [(ngModel)]="trackerSize" />
+          <span>(value: {{trackerSize}})</span>
+        </div>
+      </div>
+      <div class="form-field">
+        <div class="name"><label>Move speed: </label></div>
+        <div class="range-input">
+          <input type="range" [min]="1" [max]="120" [(ngModel)]="minSpeed" />
+          <span>(value: {{minSpeed}})</span>
+        </div>
+      </div>
+      <div class="form-field">
+        <div class="name"><label>Color:  {{colorToTrack}}</label></div>
+      </div>
+    </div>
+  </div>
+</div>

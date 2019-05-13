@@ -41,6 +41,11 @@
         <div class="mat-menu-title">Motion Detection</div>
         <mat-icon class="arrow-left-icon">arrow_left</mat-icon>
       </button>
+      <button mat-menu-item routerLinkActive="active" [routerLink]="['/tracking']" *ngIf="getInspectorBadgeNumber() > 0">
+        <mat-icon>swap_calls</mat-icon>
+        <div class="mat-menu-title">Motion Tracking</div>
+        <mat-icon class="arrow-left-icon">arrow_left</mat-icon>
+      </button>
       <button mat-menu-item routerLinkActive="active" [routerLink]="['/stereo']">
         <mat-icon>import_contacts</mat-icon>
         <div class="mat-menu-title">Side by Side</div>
