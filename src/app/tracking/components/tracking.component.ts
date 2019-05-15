@@ -128,10 +128,14 @@ export class TrackingComponent {
     if( (frameBlendedData[pos+0]+frameBlendedData[pos+1]+frameBlendedData[pos+2])/3 < 255 ) {
       return false;
     }
-    const hsv = this.rgbToHsv([frameData[pos+0],frameData[pos+1],frameData[pos+2]]);
-    return (hsv[0] < this.hsvColor[0] - this.colorTolerance[0] / 2 || hsv[0] > this.hsvColor[0] + this.colorTolerance[0] / 2) &&
-      (hsv[1] < this.hsvColor[1] - this.colorTolerance[1] / 2 || hsv[1] > this.hsvColor[1] + this.colorTolerance[1] / 2) &&
-      (hsv[2] < this.hsvColor[2] - this.colorTolerance[2] / 2 || hsv[2] > this.hsvColor[2] + this.colorTolerance[2] / 2);
+    for (let i = pos-4; i <= pos + 4; i += 4){
+      const hsv = this.rgbToHsv([frameData[i+0], frameData[i+1], frameData[i+2]]);
+      if(hsv[0] < this.hsvColor[0] - this.colorTolerance[0]/2 || hsv[0] > this.hsvColor[0] + this.colorTolerance[0]/2 ||
+        hsv[1] < this.hsvColor[1] - this.colorTolerance[1]/2 || hsv[1] > this.hsvColor[1] + this.colorTolerance[1]/2 ||
+        hsv[2] < this.hsvColor[2] - this.colorTolerance[2]/2 || hsv[2] > this.hsvColor[2] + this.colorTolerance[2]/2)
+        return false;
+    }
+    return true;
   }
 
   private setColorToTrack(hsv: number[]) {
