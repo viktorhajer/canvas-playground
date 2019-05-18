@@ -7,6 +7,7 @@
   <div class="panel">
     <div class="filter-buttons">
       <a class="filter-button extra" (click)="toggleEnabled()" *ngIf="!enabled"><label>Start</label></a>
+      <a class="filter-button enabled extra" (click)="toggleEnabled()" *ngIf="enabled"><label>Stop</label></a>
     </div>
   </div>
 

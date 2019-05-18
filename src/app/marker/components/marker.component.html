@@ -1,0 +1,25 @@
+<div class="page-title">Add comment</div>
+
+<div class="page-content">
+
+  <p class="module-message panel" *ngIf="!streamToDisplay">Select media stream</p>
+
+  <div class="sample-container panel">
+    <div class="canvas-container">
+      <canvas id="canvas" width="640" height="480" (click)="addMarker($event)"></canvas>
+    </div>
+  </div>
+
+  <div class="settings panel" *ngIf="!!streamToDisplay">
+    <div class="settings-container">
+      <div class="form-field">
+        <div class="name">
+          <label>Label: </label>
+        </div>
+        <div class="value-input">
+          <input type="text" [(ngModel)]="label"/>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

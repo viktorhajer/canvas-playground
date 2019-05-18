@@ -3,56 +3,18 @@ import {RouterModule, Routes} from '@angular/router';
 import {PageNotFoundComponent} from './components/page-not-found.component';
 
 const routes: Routes = [
-  {
-    path: '',
-    redirectTo: 'devices',
-    pathMatch: 'full'},
-  {
-    path: 'inspect',
-    loadChildren: './inspect/inspect.module#InspectModule',
-    data: {}
-  },
-  {
-    path: 'devices',
-    loadChildren: './devices/devices.module#DevicesModule',
-    data: {}
-  },
-  {
-    path: 'filters',
-    loadChildren: './filters/filters.module#FiltersModule',
-    data: {}
-  },
-  {
-    path: 'detection',
-    loadChildren: './detection/detection.module#DetectionModule',
-    data: {}
-  },
-  {
-    path: 'mixer',
-    loadChildren: './mixer/mixer.module#MixerModule',
-    data: {}
-  },
-  {
-    path: 'color-keying',
-    loadChildren: './color-keying/color-keying.module#ColorKeyingModule',
-    data: {}
-  },
-  {
-    path: 'motion',
-    loadChildren: './motion/motion.module#MotionModule',
-    data: {}
-  },
-  {
-    path: 'tracking',
-    loadChildren: './tracking/tracking.module#TrackingModule',
-    data: {}
-  },
-  {
-    path: 'stereo',
-    loadChildren: './stereo/stereo.module#StereoModule',
-    data: {}
-  },
-  {path: '**', component: PageNotFoundComponent}
+  { path: '', redirectTo: 'devices', pathMatch: 'full'},
+  { path: 'inspect', loadChildren: './inspect/inspect.module#InspectModule' },
+  { path: 'devices', loadChildren: './devices/devices.module#DevicesModule' },
+  { path: 'filters', loadChildren: './filters/filters.module#FiltersModule' },
+  { path: 'marker', loadChildren: './marker/marker.module#MarkerModule' },
+  { path: 'detection', loadChildren: './detection/detection.module#DetectionModule' },
+  { path: 'mixer', loadChildren: './mixer/mixer.module#MixerModule' },
+  { path: 'color-keying', loadChildren: './color-keying/color-keying.module#ColorKeyingModule' },
+  { path: 'motion', loadChildren: './motion/motion.module#MotionModule' },
+  { path: 'tracking', loadChildren: './tracking/tracking.module#TrackingModule' },
+  { path: 'stereo', loadChildren: './stereo/stereo.module#StereoModule' },
+  { path: '**', component: PageNotFoundComponent}
 ];
 
 @NgModule({

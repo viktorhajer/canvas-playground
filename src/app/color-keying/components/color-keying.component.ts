@@ -1,13 +1,13 @@
-import {Component, OnDestroy} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {StreamService} from '../../shared/services/stream.service';
 
 @Component({
   templateUrl: './color-keying.component.html',
   styleUrls: ['color-keying.component.scss', '../../filters/components/filters.component.scss']
 })
-export class ColorKeyingComponent implements OnDestroy {
+export class ColorKeyingComponent implements OnInit {
 
-  interval: any;
+  enabled = false;
   streamToDisplay: MediaStream;
   video: HTMLVideoElement;
 
@@ -25,8 +25,15 @@ export class ColorKeyingComponent implements OnDestroy {
     }
   }
 
-  ngOnDestroy() {
-    this.stop();
+  ngOnInit() {
+    this.toggleEnabled();
+  }
+
+  toggleEnabled() {
+    this.enabled = !this.enabled;
+    if (this.enabled) { 
+      this.start();
+    }
   }
 
   start() {
@@ -37,15 +44,11 @@ export class ColorKeyingComponent implements OnDestroy {
     this.video.autoplay = true;
     this.canvas = <HTMLCanvasElement>document.getElementById('canvas');
     this.ctx = this.canvas.getContext('2d');
-    this.interval = setInterval(() => this.update(), 30);
-  }
-
-  stop() {
-    clearInterval(this.interval);
-    this.interval = null;
+    this.update();
   }
 
   pickColor(event: MouseEvent) {
+    this.ctx.drawImage(this.video, 0, 0, this.video.width, this.video.height);
     const imageData = this.ctx.getImageData(0, 0, this.video.width, this.video.height);
     const data = imageData.data;
     const pos = this.video.width * event.layerY + event.layerX;
@@ -72,6 +75,9 @@ export class ColorKeyingComponent implements OnDestroy {
       if (!!this.color.length) {
         this.updateCanvas(this.ctx, w, h);
       }
+    }
+    if (this.enabled) {
+      setTimeout(() => this.update(), 1);
     }
   }
 

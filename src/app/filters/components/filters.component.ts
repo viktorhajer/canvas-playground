@@ -1,4 +1,4 @@
-import {Component, OnDestroy} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {StreamService} from '../../shared/services/stream.service';
 import {ContrastCanvasFilter} from '../filters/contrast-canvas.filter';
 import {CanvasFilter} from '../filters/canvas.filter';
@@ -15,9 +15,9 @@ import {ThresholdDataCanvasFilter} from '../filters/threshold-data-canvas.filter
   templateUrl: './filters.component.html',
   styleUrls: ['filters.component.scss']
 })
-export class FiltersComponent implements OnDestroy {
+export class FiltersComponent implements OnInit {
 
-  interval: any;
+  enabled = false;
   streamToDisplay: MediaStream;
   video: HTMLVideoElement;
   filters: CanvasFilter[] = [];
@@ -40,11 +40,19 @@ export class FiltersComponent implements OnDestroy {
     ];
   }
 
-  ngOnDestroy() {
-    this.stop();
+  ngOnInit() {
+    this.toggleEnabled();
   }
 
-  start() {
+  toggleEnabled() {
+    this.enabled = !this.enabled;
+    if (this.enabled) { 
+      this.start();
+    }
+  }
+
+  private start() {
+    this.enabled = true;
     this.video = <HTMLVideoElement>document.createElement('video');
     this.video.srcObject = this.streamToDisplay;
     this.video.width = 640;
@@ -52,12 +60,7 @@ export class FiltersComponent implements OnDestroy {
     this.video.autoplay = true;
     this.canvas = <HTMLCanvasElement>document.getElementById('canvas');
     this.ctx = this.canvas.getContext('2d');
-    this.interval = setInterval(() => this.update(), 30);
-  }
-
-  stop() {
-    clearInterval(this.interval);
-    this.interval = null;
+    this.update();
   }
 
   isSelectedFilter(filter: CanvasFilter): boolean {
@@ -82,6 +85,9 @@ export class FiltersComponent implements OnDestroy {
       this.filters.filter(f => f.enabled).forEach(f => {
         f.filter(this.ctx, w, h);
       });
+    }
+    if (this.enabled) {
+      setTimeout(() => this.update(), 1);
     }
   }
 }

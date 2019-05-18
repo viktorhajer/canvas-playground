@@ -6,8 +6,8 @@
 
   <div class="panel">
     <div class="filter-buttons">
-        <a class="filter-button extra" (click)="start()" *ngIf="!interval"><label>Start</label></a>
-        <a class="filter-button enabled extra" (click)="stop()" *ngIf="interval"><label>Stop</label></a>
+        <a class="filter-button extra" (click)="toggleEnabled()" *ngIf="!enabled"><label>Start</label></a>
+        <a class="filter-button enabled extra" (click)="toggleEnabled()" *ngIf="enabled"><label>Stop</label></a>
         <a class="filter-button" [class.enabled]="f.enabled" [class.selected]="isSelectedFilter(f)"
           (click)="selectFilter(f)" *ngFor="let f of filters">
             <label>{{ f.label }}</label>

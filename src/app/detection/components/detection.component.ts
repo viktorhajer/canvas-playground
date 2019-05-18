@@ -1,4 +1,4 @@
-import {Component, OnDestroy} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {StreamService} from '../../shared/services/stream.service';
 import {AreaDetector} from '../detectors/area.detector';
 import {DarkDetector} from '../detectors/dark.detector';
@@ -8,9 +8,9 @@ import {LightDetector} from '../detectors/light.detector';
   templateUrl: './detection.component.html',
   styleUrls: ['detection.component.scss']
 })
-export class DetectionComponent implements OnDestroy {
+export class DetectionComponent implements OnInit {
 
-  interval: any;
+  enabled = false;
   streamToDisplay: MediaStream;
   video: HTMLVideoElement;
   detectors: AreaDetector[] = [];
@@ -28,11 +28,18 @@ export class DetectionComponent implements OnDestroy {
     ];
   }
 
-  ngOnDestroy() {
-    this.stop();
+  ngOnInit() {
+    this.toggleEnabled();
   }
 
-  start() {
+  toggleEnabled() {
+    this.enabled = !this.enabled;
+    if (this.enabled) { 
+      this.start();
+    }
+  }
+
+  private start() {
     this.video = <HTMLVideoElement>document.createElement('video');
     this.video.srcObject = this.streamToDisplay;
     this.video.width = 640;
@@ -40,12 +47,7 @@ export class DetectionComponent implements OnDestroy {
     this.video.autoplay = true;
     this.canvas = <HTMLCanvasElement>document.getElementById('canvas');
     this.ctx = this.canvas.getContext('2d');
-    this.interval = setInterval(() => this.update(), 30);
-  }
-
-  stop() {
-    clearInterval(this.interval);
-    this.interval = null;
+    this.update();
   }
 
   isSelectedDetector(detector: AreaDetector): boolean {
@@ -73,6 +75,9 @@ export class DetectionComponent implements OnDestroy {
       if (!!this.selectedDetector) {
         this.selectedDetector.detect(this.ctx, w, h);
       }
+    }
+    if (this.enabled) {
+      setTimeout(() => this.update(), 1);
     }
   }
 }

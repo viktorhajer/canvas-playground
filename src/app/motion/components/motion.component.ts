@@ -1,13 +1,13 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {StreamService} from '../../shared/services/stream.service';
 
 @Component({
   templateUrl: './motion.component.html',
   styleUrls: ['motion.component.scss', '../../filters/components/filters.component.scss']
 })
-export class MotionComponent {
+export class MotionComponent implements OnInit {
 
-  interval: any;
+  enabled = false;
   streamToDisplay: MediaStream;
   video: HTMLVideoElement;
 
@@ -28,11 +28,18 @@ export class MotionComponent {
     }
   }
 
-  ngOnDestroy() {
-    this.stop();
+  ngOnInit() {
+    this.toggleEnabled();
   }
 
-  start() {
+  toggleEnabled() {
+    this.enabled = !this.enabled;
+    if (this.enabled) { 
+      this.start();
+    }
+  }
+
+  private start() {
     this.video = <HTMLVideoElement>document.createElement('video');
     this.video.srcObject = this.streamToDisplay;
     this.video.width = 640;
@@ -46,12 +53,7 @@ export class MotionComponent {
 
     this.canvDiff = <HTMLCanvasElement>document.getElementById('canvas');
     this.ctxDiff = this.canvDiff.getContext('2d');
-    this.interval = setInterval(() => this.update(), 30);
-  }
-
-  stop() {
-    clearInterval(this.interval);
-    this.interval = null;
+    this.update();
   }
 
   setMode1(m: number) {
@@ -111,7 +113,9 @@ export class MotionComponent {
       this.ctx.putImageData(imageData, 0, 0);
       this.ctxDiff.putImageData(imageDataDiff, 0, 0);
       this.power = Math.floor(sumDiff);
-
+    }
+    if (this.enabled) {
+      setTimeout(() => this.update(), 1);
     }
   }
 }

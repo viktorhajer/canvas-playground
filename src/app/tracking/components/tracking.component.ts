@@ -1,11 +1,11 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {StreamService} from '../../shared/services/stream.service';
 
 @Component({
   templateUrl: './tracking.component.html',
   styleUrls: ['tracking.component.scss', '../../filters/components/filters.component.scss']
 })
-export class TrackingComponent {
+export class TrackingComponent implements OnInit {
 
   streamToDisplay: MediaStream;
   video: HTMLVideoElement;
@@ -32,6 +32,10 @@ export class TrackingComponent {
       this.streamToDisplay = this.streamService.streams[0];
     }
     this.setColorToTrack(this.rgbToHsv(this.hex2rgb(this.colorToTrack)));
+  }
+
+  ngOnInit() {
+    this.toggleEnabled();
   }
 
   toggleEnabled() {

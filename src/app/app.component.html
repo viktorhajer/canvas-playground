@@ -21,6 +21,11 @@
         <div class="mat-menu-title">Filters</div>
         <mat-icon class="arrow-left-icon">arrow_left</mat-icon>
       </button>
+      <button mat-menu-item routerLinkActive="active" [routerLink]="['/marker']" *ngIf="getInspectorBadgeNumber() > 0">
+        <mat-icon>add_comment</mat-icon>
+        <div class="mat-menu-title">Add comment</div>
+        <mat-icon class="arrow-left-icon">arrow_left</mat-icon>
+      </button>
       <button mat-menu-item routerLinkActive="active" [routerLink]="['/detection']" *ngIf="getInspectorBadgeNumber() > 0">
         <mat-icon>search</mat-icon>
         <div class="mat-menu-title">Detectors</div>
