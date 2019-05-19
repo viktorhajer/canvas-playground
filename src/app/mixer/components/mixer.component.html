@@ -34,8 +34,8 @@
         </div>
       </div>
       <div class="form-field">
-        <button mat-raised-button color="primary" (click)="start()" *ngIf="!interval">Start</button>
-        <button mat-raised-button color="accent" (click)="stop()" *ngIf="interval">Freeze</button>
+        <button mat-raised-button color="primary" (click)="toggleEnabled()" *ngIf="!enabled">Start</button>
+        <button mat-raised-button color="accent" (click)="toggleEnabled()" *ngIf="enabled">Stop</button>
         <button mat-raised-button color="primary" (click)="toggleVideo()">ToggleVideo</button>
       </div>
     </div>

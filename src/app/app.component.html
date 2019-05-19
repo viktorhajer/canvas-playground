@@ -51,6 +51,11 @@
         <div class="mat-menu-title">Motion Tracking</div>
         <mat-icon class="arrow-left-icon">arrow_left</mat-icon>
       </button>
+      <button mat-menu-item routerLinkActive="active" [routerLink]="['/presenter']" *ngIf="getInspectorBadgeNumber() > 0">
+        <mat-icon>desktop_windows</mat-icon>
+        <div class="mat-menu-title">Presenter</div>
+        <mat-icon class="arrow-left-icon">arrow_left</mat-icon>
+      </button>
       <button mat-menu-item routerLinkActive="active" [routerLink]="['/stereo']">
         <mat-icon>import_contacts</mat-icon>
         <div class="mat-menu-title">Side by Side</div>

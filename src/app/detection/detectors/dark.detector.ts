@@ -6,7 +6,7 @@ export class DarkDetector extends AreaDetector {
   prevIndex: string; 
 
   constructor() {
-    super('Dark');
+    super('Darkest');
   }
 
   processPixel(data: Uint8ClampedArray, horizontal: number, vertical: number, index: number) {

@@ -6,7 +6,7 @@ export class LightDetector extends AreaDetector {
   prevIndex: string; 
 
   constructor() {
-    super('Light');
+    super('Lightest');
   }
 
   processPixel(data: Uint8ClampedArray, horizontal: number, vertical: number, index: number) {

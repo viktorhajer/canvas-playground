@@ -8,6 +8,7 @@ const routes: Routes = [
   { path: 'devices', loadChildren: './devices/devices.module#DevicesModule' },
   { path: 'filters', loadChildren: './filters/filters.module#FiltersModule' },
   { path: 'marker', loadChildren: './marker/marker.module#MarkerModule' },
+  { path: 'presenter', loadChildren: './presenter/presenter.module#PresenterModule' },
   { path: 'detection', loadChildren: './detection/detection.module#DetectionModule' },
   { path: 'mixer', loadChildren: './mixer/mixer.module#MixerModule' },
   { path: 'color-keying', loadChildren: './color-keying/color-keying.module#ColorKeyingModule' },

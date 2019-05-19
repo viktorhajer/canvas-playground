@@ -1,59 +1,33 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {StreamService} from '../../shared/services/stream.service';
+import {ColorHelper} from 'src/app/shared/helpers/color.helper';
+import {CanvasComponent} from 'src/app/shared/components/canvas.component';
 
-const MARKER_SIZE = 0.4;
-const MARKER_SPEED = 15;
-const MARKER_COLOR = '#20a8da';
+const MARKER_SIZE = 0.6;
+const MARKER_SPEED = 20;
 const MARKER_TEXT_COLOR = '#ffffff';
 
 @Component({
   templateUrl: './marker.component.html',
   styleUrls: ['marker.component.scss']
 })
-export class MarkerComponent implements OnInit {
+export class MarkerComponent extends CanvasComponent {
 
-  streamToDisplay: MediaStream;
-  video: HTMLVideoElement;
   label = 'Test';
-
-  private canvas: HTMLCanvasElement;
-  private ctx: CanvasRenderingContext2D;
+  markerColor = '#20a8da';
   private markers: Marker[] = [];
 
-  constructor(private streamService: StreamService) {
-    if (!!this.streamService.streams.length) {
-      this.streamToDisplay = this.streamService.streams[0];
-    }
+  constructor(streamService: StreamService) {
+    super(streamService);
   }
 
-  ngOnInit() {
-    this.start();
-  }
-
-  private start() {
-    this.video = <HTMLVideoElement>document.createElement('video');
-    this.video.srcObject = this.streamToDisplay;
-    this.video.width = 640;
-    this.video.height = 480;
-    this.video.autoplay = true;
-
-    this.canvas = <HTMLCanvasElement>document.getElementById('canvas');
-    this.ctx = this.canvas.getContext('2d');
-    this.update();
-  }
-
-  private update() {
-    this.ctx.drawImage(this.video, 0, 0, this.video.width, this.video.height);
-    this.computeFrame();
-    setTimeout(() => this.update(), 1);
-  }
-
-  private computeFrame() {
+  computeFrame() {
     this.markers.forEach(m => m.draw(this.ctx));
   }    
 
   addMarker(event: MouseEvent) {
-    this.markers.push(new Marker(event.layerX, event.layerY, this.label));
+    this.markers.push(new Marker(event.layerX, event.layerY, this.label,
+      ColorHelper.rgb2String(ColorHelper.hex2rgb(this.markerColor))));
   }
 }
 
@@ -61,12 +35,11 @@ class Marker {
   private phase = 1;
   private directionFlag = true;
 
-  constructor(public x: number, public y: number, public label: string) {
-    console.log(this.label);
+  constructor(public x: number, public y: number, public label: string, public color: string) {
   }
 
   draw(ctx: CanvasRenderingContext2D) {
-    ctx.fillStyle = MARKER_COLOR;
+    ctx.fillStyle = ColorHelper.replaceAlphaInColor(this.color, Math.floor(MARKER_SPEED / this.phase * 10) / 10);
     ctx.beginPath();
     ctx.arc(this.x, this.y, MARKER_SIZE * this.phase, 0, 2 * Math.PI);
     ctx.fill();

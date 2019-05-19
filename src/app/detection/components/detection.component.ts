@@ -1,53 +1,24 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {StreamService} from '../../shared/services/stream.service';
 import {AreaDetector} from '../detectors/area.detector';
 import {DarkDetector} from '../detectors/dark.detector';
 import {LightDetector} from '../detectors/light.detector';
+import {CanvasComponent} from 'src/app/shared/components/canvas.component';
 
 @Component({
   templateUrl: './detection.component.html',
   styleUrls: ['detection.component.scss']
 })
-export class DetectionComponent implements OnInit {
+export class DetectionComponent extends CanvasComponent {
 
-  enabled = false;
-  streamToDisplay: MediaStream;
-  video: HTMLVideoElement;
   detectors: AreaDetector[] = [];
   selectedDetector: AreaDetector;
 
-  private canvas: HTMLCanvasElement;
-  private ctx: CanvasRenderingContext2D;
-
-  constructor(private streamService: StreamService) {
-    if (!!this.streamService.streams.length) {
-      this.streamToDisplay = this.streamService.streams[0];
-    }
+  constructor(streamService: StreamService) {
+    super(streamService);
     this.detectors = [
       new DarkDetector(), new LightDetector()
     ];
-  }
-
-  ngOnInit() {
-    this.toggleEnabled();
-  }
-
-  toggleEnabled() {
-    this.enabled = !this.enabled;
-    if (this.enabled) { 
-      this.start();
-    }
-  }
-
-  private start() {
-    this.video = <HTMLVideoElement>document.createElement('video');
-    this.video.srcObject = this.streamToDisplay;
-    this.video.width = 640;
-    this.video.height = 480;
-    this.video.autoplay = true;
-    this.canvas = <HTMLCanvasElement>document.getElementById('canvas');
-    this.ctx = this.canvas.getContext('2d');
-    this.update();
   }
 
   isSelectedDetector(detector: AreaDetector): boolean {
@@ -66,18 +37,9 @@ export class DetectionComponent implements OnInit {
     detector.toggleEnabled();
   }
 
-  private update() {
-    if (this.video) {
-      const w = this.video.width;
-      const h = this.video.height;
-      this.ctx.drawImage(this.video, 0, 0, w, h);
-      this.ctx.filter = 'none';
-      if (!!this.selectedDetector) {
-        this.selectedDetector.detect(this.ctx, w, h);
-      }
-    }
-    if (this.enabled) {
-      setTimeout(() => this.update(), 1);
+  computeFrame() {
+    if (!!this.selectedDetector) {
+      this.selectedDetector.detect(this.ctx, this.video.width, this.video.height);
     }
   }
 }

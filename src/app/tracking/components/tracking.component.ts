@@ -1,15 +1,14 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {StreamService} from '../../shared/services/stream.service';
+import {ColorHelper} from 'src/app/shared/helpers/color.helper';
+import {CanvasComponent} from 'src/app/shared/components/canvas.component';
 
 @Component({
   templateUrl: './tracking.component.html',
   styleUrls: ['tracking.component.scss', '../../filters/components/filters.component.scss']
 })
-export class TrackingComponent implements OnInit {
+export class TrackingComponent extends CanvasComponent {
 
-  streamToDisplay: MediaStream;
-  video: HTMLVideoElement;
-  enabled = false;
 	minSpeed = 80;    // Minimun speed of the object to trigger the onMove function
 	trackerSize = 40; // Size of the tracker
   trackerSpeed = 4;
@@ -22,55 +21,22 @@ export class TrackingComponent implements OnInit {
   private objectShape;
   private actualShape;
 
-  private canvas: HTMLCanvasElement;
   private canvasBlended: HTMLCanvasElement;
-  private ctx: CanvasRenderingContext2D;
   private ctxBlended: CanvasRenderingContext2D;
 
-  constructor(private streamService: StreamService) {
-    if (!!this.streamService.streams.length) {
-      this.streamToDisplay = this.streamService.streams[0];
-    }
-    this.setColorToTrack(this.rgbToHsv(this.hex2rgb(this.colorToTrack)));
+  constructor(streamService: StreamService) {
+    super(streamService);
+    this.setColorToTrack(ColorHelper.rgbToHsv(ColorHelper.hex2rgb(this.colorToTrack)));
   }
 
-  ngOnInit() {
-    this.toggleEnabled();
-  }
-
-  toggleEnabled() {
-    this.enabled = !this.enabled;
-    if (this.enabled) { 
-      this.start();
-    }
-  }
-
-  private start() {
-    this.video = <HTMLVideoElement>document.createElement('video');
-    this.video.srcObject = this.streamToDisplay;
-    this.video.width = 640;
-    this.video.height = 480;
-    this.video.autoplay = true;
-
+  init() {
     this.canvasBlended = document.createElement('canvas');
     this.canvasBlended.width = this.video.width;
     this.canvasBlended.height = this.video.height;
 	  this.ctxBlended = this.canvasBlended.getContext("2d");
-
-    this.canvas = <HTMLCanvasElement>document.getElementById('canvas');
-    this.ctx = this.canvas.getContext('2d');
-    this.update();
   }
 
-  private update() {
-    this.ctx.drawImage(this.video, 0, 0, this.video.width, this.video.height);
-    this.computeFrame();
-    if (this.enabled) {
-      setTimeout(() => this.update(), 1);
-    }
-  }
-
-  private computeFrame() {
+  computeFrame() {
     const frame = this.ctx.getImageData(0, 0, this.video.width, this.video.height);
     this.blend(frame);
     this.ctx.strokeStyle = 'black';
@@ -133,7 +99,7 @@ export class TrackingComponent implements OnInit {
       return false;
     }
     for (let i = pos-4; i <= pos + 4; i += 4){
-      const hsv = this.rgbToHsv([frameData[i+0], frameData[i+1], frameData[i+2]]);
+      const hsv = ColorHelper.rgbToHsv([frameData[i+0], frameData[i+1], frameData[i+2]]);
       if(hsv[0] < this.hsvColor[0] - this.colorTolerance[0]/2 || hsv[0] > this.hsvColor[0] + this.colorTolerance[0]/2 ||
         hsv[1] < this.hsvColor[1] - this.colorTolerance[1]/2 || hsv[1] > this.hsvColor[1] + this.colorTolerance[1]/2 ||
         hsv[2] < this.hsvColor[2] - this.colorTolerance[2]/2 || hsv[2] > this.hsvColor[2] + this.colorTolerance[2]/2)
@@ -146,45 +112,6 @@ export class TrackingComponent implements OnInit {
     this.hsvColor = hsv;
   }
 
-  private rgbToHsv(rgb: number[]): number[] {
-    let r = rgb[0]/255, g = rgb[1] /255, b = rgb[2]/255;
-    let max = Math.max(r, g, b), min = Math.min(r, g, b);
-    let h, s, v = max;
-    let d = max - min;
-    s = max === 0 ? 0 : d / max;
-    if (max === min) {
-      h = 0; // achromatic
-    } else {
-      switch(max) {
-        case r: h = (g - b) / d + (g < b ? 6 : 0); break;
-        case g: h = (b - r) / d + 2; break;
-        case b: h = (r - g) / d + 4; break;
-      }
-      h /= 6;
-    }
-    return [h, s, v];
-  }
-
-  private hex2rgb(col: string): number[] {
-    let r, g, b;
-    if (col.charAt(0) == '#') {
-      col = col.substr(1);
-    }
-    r = col.charAt(0) + col.charAt(1);
-    g = col.charAt(2) + col.charAt(3);
-    b = col.charAt(4) + col.charAt(5);
-    r = parseInt(r, 16);
-    g = parseInt(g, 16);
-    b = parseInt(b, 16);
-    return [r, g, b];
-  }
-
-  private rgb2hex(red: number, green: number, blue: number): string {
-    let rgb = Array.apply(null, arguments).join().match(/\d+/g);
-    rgb = ((rgb[0] << 16) + (rgb[1] << 8) + (+rgb[2])).toString(16);
-    return rgb;
-  }
-
   pickColor(event: MouseEvent) {
     const imageData = this.ctx.getImageData(0, 0, this.video.width, this.video.height);
     const data = imageData.data;
@@ -192,7 +119,7 @@ export class TrackingComponent implements OnInit {
     const red = data[pos * 4 + 0];
     const green = data[pos * 4 + 1];
     const blue = data[pos * 4 + 2];
-    this.colorToTrack= '#' + this.rgb2hex(red, green, blue);
-    this.setColorToTrack(this.rgbToHsv([red, green, blue]));
+    this.colorToTrack= '#' + ColorHelper.rgb2hex(red, green, blue);
+    this.setColorToTrack(ColorHelper.rgbToHsv([red, green, blue]));
   }
 }

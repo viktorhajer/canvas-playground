@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 import {RecordService} from 'src/app/shared/services/record.service';
 
 const CANVAS_WIDTH = 1280;
@@ -8,7 +8,7 @@ const CANVAS_HEIGHT = 480;
   templateUrl: './stereo.component.html',
   styleUrls: ['stereo.component.scss', '../../filters/components/filters.component.scss']
 })
-export class StereoComponent implements OnInit {
+export class StereoComponent implements OnInit, OnDestroy {
     
   videoWidth: number;
   videoHeight: number;
@@ -39,6 +39,10 @@ export class StereoComponent implements OnInit {
     this.ctx = this.canvas.getContext("2d");
     this.devices = [];
     this.initDevices().then(ds => this.devices = ds);
+  }
+
+  ngOnDestroy() {
+    this.playing = false;
   }
 
   init() {

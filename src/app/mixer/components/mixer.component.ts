@@ -1,13 +1,13 @@
-import {Component, OnDestroy} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {StreamService} from '../../shared/services/stream.service';
 
 @Component({
   templateUrl: './mixer.component.html',
   styleUrls: ['mixer.component.scss']
 })
-export class MixerComponent implements OnDestroy {
+export class MixerComponent implements OnInit, OnDestroy {
 
-  interval: any;
+  enabled = false;
   streamFirst: MediaStream;
   videoFirst: HTMLVideoElement;
   streamSecond: MediaStream;
@@ -35,21 +35,28 @@ export class MixerComponent implements OnDestroy {
     }
   }
 
+  ngOnInit() {
+    this.toggleEnabled();
+  }
+  
   ngOnDestroy() {
-    this.stop();
+    this.enabled = false;
+  }
+
+  toggleEnabled() {
+    this.enabled = !this.enabled;
+    if (this.enabled) { 
+      this.start();
+    }
   }
 
   start() {
     this.initVideos();
     this.canvas = <HTMLCanvasElement>document.getElementById('canvas');
     this.ctx = this.canvas.getContext('2d');
-    this.interval = setInterval(() => this.update(), 30);
+    this.update();
   }
 
-  stop() {
-    clearInterval(this.interval);
-    this.interval = null;
-  }
 
   private update() {
     if (!!this.videoFirst && !!this.videoSecond) {
@@ -68,14 +75,13 @@ export class MixerComponent implements OnDestroy {
       this.ctx.globalAlpha = this.opacity / 100;
       this.ctx.drawImage(this.videoSecond, 0, 0, wF, hF);
     }
+    if (this.enabled) {
+      setTimeout(() => this.update(), 1);
+    }
   }
 
   toggleVideo() {
-    if (this.interval) {
-      this.stop();
-    }
     this.showVideoElement = !this.showVideoElement;
-    this.initVideos();
     setTimeout(() => this.start(), 100);
   }
 
