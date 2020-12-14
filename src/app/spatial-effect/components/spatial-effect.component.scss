@@ -1,0 +1,13 @@
+#spatial-effect-container {
+  .panel {
+    width: calc(100vw - 300px);
+  }
+
+  .settings-container .form-field {
+    width: auto;
+
+    .range-input input {
+      width: 600px;
+    }
+  }
+}

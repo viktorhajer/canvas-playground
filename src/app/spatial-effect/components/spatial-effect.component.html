@@ -1,0 +1,75 @@
+<div class="page-title">Spatial Effect</div>
+
+<div class="page-content" id="spatial-effect-container">
+
+  <div class="panel">
+    <div class="filter-buttons" *ngIf="!!devices.length">
+        <label>Init: </label>
+        <a class="filter-button extra" (click)="init()"><label>Init</label></a>
+        <select [(ngModel)]="leftIndex">
+          <option *ngFor="let device of devices; let i = index" [value]="i">{{ i }}</option>
+        </select>
+        <select [(ngModel)]="rightIndex">
+            <option *ngFor="let device of devices; let i = index" [value]="i">{{ i }}</option>
+          </select>
+        <label *ngIf="initalized">Video: </label>
+        <a class="filter-button" (click)="togglePause()" *ngIf="initalized">
+          <label *ngIf="!playing || paused">Start</label>
+          <label *ngIf="playing && !paused">Pause</label>
+        </a>
+        <label *ngIf="playing">Recording: </label>
+        <a class="filter-button" (click)="recordService.start()" *ngIf="playing && recordService.canStart()"><label>Start</label></a>
+        <a class="filter-button" (click)="recordService.pause()" *ngIf="playing && recordService.canPause()"><label>Pause</label></a>
+        <a class="filter-button" (click)="recordService.resume()" *ngIf="playing && recordService.canResume()"><label>Resume</label></a>
+        <a class="filter-button" (click)="recordService.stop()" *ngIf="playing && recordService.canStop()"><label>Stop</label></a>
+        <a class="filter-button" (click)="recordService.download('video')" *ngIf="playing && recordService.canDownload()"><label>Download</label></a>
+    </div>
+  </div>
+
+  <div class="sample-container">
+    <div class="canvas-container">
+      <canvas id="canvas"></canvas>
+    </div>
+  </div>
+
+  <div class="settings panel">
+    <div class="settings-container">
+      <div class="form-field">
+        <div class="name"><label>Video #1 horizontal: </label></div>
+        <div class="range-input">
+          <input type="range" [min]="-150" [max]="150" [(ngModel)]="leftHorizontal"/> <span>(value: {{leftHorizontal}})</span>
+        </div>
+      </div>
+      <div class="form-field">
+        <div class="name"><label>Video #1 vertical: </label></div>
+        <div class="range-input">
+          <input type="range" [min]="-150" [max]="150" [(ngModel)]="leftVertical"/> <span>(value: {{leftVertical}})</span>
+        </div>
+      </div>
+      <div class="form-field">
+        <div class="name"><label>Video #2 horizontal: </label></div>
+        <div class="range-input">
+          <input type="range" [min]="-150" [max]="150" [(ngModel)]="rightHorizontal"/> <span>(value: {{rightHorizontal}})</span>
+        </div>
+      </div>
+      <div class="form-field">
+        <div class="name"><label>Video #2 vertical: </label></div>
+        <div class="range-input">
+          <input type="range" [min]="-150" [max]="150" [(ngModel)]="rightVertical"/> <span>(value: {{rightVertical}})</span>
+        </div>
+      </div>
+      <div class="form-field">
+        <div class="name"><label>Alpha: </label></div>
+        <div class="range-input">
+          <input type="range" [min]="0" [max]="100" [(ngModel)]="alpha"/> <span>(value: {{alpha}})</span>
+        </div>
+      </div>
+      <div class="form-field">
+        <div class="name"><label>Frequency: </label></div>
+        <div class="range-input">
+          <input type="range" [min]="0" [max]="300" [(ngModel)]="frequency"/> <span>(value: {{frequency}})</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

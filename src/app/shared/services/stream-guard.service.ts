@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
-import { Router, CanActivate } from '@angular/router';
-import { StreamService } from './stream.service';
+import {Injectable} from '@angular/core';
+import {CanActivate, Router} from '@angular/router';
+import {StreamService} from './stream.service';
 
 @Injectable({providedIn: 'root'})
 export class StreamGuard implements CanActivate {
@@ -9,7 +9,7 @@ export class StreamGuard implements CanActivate {
   }
 
   canActivate(): boolean {
-    if (!this.streamService.streams.length){
+    if (!this.streamService.streams.length) {
       this.router.navigate(['devices']);
       return false;
     }

@@ -15,7 +15,8 @@ const routes: Routes = [
   { path: 'color-keying', loadChildren: './color-keying/color-keying.module#ColorKeyingModule', canActivate: [StreamGuard] },
   { path: 'motion', loadChildren: './motion/motion.module#MotionModule', canActivate: [StreamGuard] },
   { path: 'tracking', loadChildren: './tracking/tracking.module#TrackingModule', canActivate: [StreamGuard] },
-  { path: 'stereo', loadChildren: './stereo/stereo.module#StereoModule' },
+  { path: 'spatial-effect', loadChildren: './spatial-effect/spatial-effect.module#SpatialEffectModule', canActivate: [] },
+  { path: 'stereo', loadChildren: './stereo/stereo.module#StereoModule', canActivate: []  },
   { path: '**', component: PageNotFoundComponent}
 ];
 

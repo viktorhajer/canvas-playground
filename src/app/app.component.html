@@ -61,6 +61,11 @@
         <div class="mat-menu-title">Side by Side</div>
         <mat-icon class="arrow-left-icon">arrow_left</mat-icon>
       </button>
+    <button mat-menu-item routerLinkActive="active" [routerLink]="['/spatial-effect']">
+      <mat-icon>batch_prediction</mat-icon>
+      <div class="mat-menu-title">Spatial Effect</div>
+      <mat-icon class="arrow-left-icon">arrow_left</mat-icon>
+    </button>
   </div>
 
   <div class="loading" *ngIf="loadingService.loading">
